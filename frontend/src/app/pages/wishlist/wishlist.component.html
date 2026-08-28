@@ -1,0 +1,28 @@
+<section class="page">
+  <h1>Enquiry list</h1>
+  <p>Products you want to contact the seller about. When you are logged in, this list is saved to your account.</p>
+
+  @if (!auth.isLoggedIn()) {
+    <p><a routerLink="/login">Log in</a> to keep this list on your profile across devices.</p>
+  }
+
+  @if (products.length) {
+    <a class="whatsapp" [href]="whatsappUrl()" target="_blank" rel="noopener">Enquire now on WhatsApp</a>
+    <div class="list">
+      @for (product of products; track product.id) {
+        <article class="card">
+          <img [src]="product.imageUrl" [alt]="product.name" />
+          <div>
+            <a [routerLink]="['/products', product.id]"><h3>{{ product.name }}</h3></a>
+            <p>Model {{ product.modelNumber }} · {{ product.brand }}</p>
+            <app-price-display [product]="product" />
+            <button type="button" (click)="remove(product.id)">Remove</button>
+          </div>
+        </article>
+      }
+    </div>
+  } @else {
+    <p>No products in your enquiry list yet. Open a product and click Add to enquiry list.</p>
+    <a routerLink="/products">Browse products</a>
+  }
+</section>

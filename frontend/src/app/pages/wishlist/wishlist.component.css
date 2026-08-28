@@ -1,0 +1,50 @@
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.whatsapp {
+  display: inline-block;
+  background: #25d366;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid #e5ebf0;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+img {
+  width: 120px;
+  background: #f4f7fa;
+}
+
+a {
+  color: #1c3d5a;
+  text-decoration: none;
+}
+
+button {
+  margin-top: 8px;
+  border: 0;
+  background: #eef2f5;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}

@@ -1,0 +1,37 @@
+@if (product) {
+  <div class="detail">
+    <a routerLink="/products" class="back">← Back to product list</a>
+    <div class="panel">
+      <img [src]="product.imageUrl" [alt]="product.name" />
+      <div>
+        <p class="sku">Model {{ product.modelNumber }} · {{ product.brand }}</p>
+        <h1>{{ product.name }}</h1>
+        <app-price-display [product]="product" />
+        <p class="blurb">{{ product.description }}</p>
+        <div class="spec-boxes">
+          <div class="spec-box"><span>Model number</span><strong>{{ product.modelNumber }}</strong></div>
+          <div class="spec-box"><span>Type</span><strong>{{ product.type }}</strong></div>
+          <div class="spec-box"><span>Material</span><strong>{{ product.material }}</strong></div>
+          <div class="spec-box"><span>Inner diameter</span><strong>{{ product.innerDiameter }}</strong></div>
+          <div class="spec-box"><span>Outer diameter</span><strong>{{ product.outerDiameter }}</strong></div>
+          <div class="spec-box"><span>MOQ</span><strong>{{ product.moq }} piece(s)</strong></div>
+          <div class="spec-box"><span>Discount</span><strong>{{ product.discountPercent }}% off</strong></div>
+          <div class="spec-box"><span>Rating</span><strong>{{ product.rating.toFixed(1) }} / 5</strong></div>
+          <div class="spec-box"><span>Filter C</span><strong>{{ product.filterC }}</strong></div>
+          <div class="spec-box"><span>Filter D</span><strong>{{ product.filterD }}</strong></div>
+        </div>
+        <div class="actions">
+          <a class="whatsapp" [href]="whatsappUrl(product)" target="_blank" rel="noopener">Enquire now</a>
+          <button type="button" class="ghost" (click)="toggleCart(product)">
+            {{ inCart(product) ? 'Remove from list' : 'Add to enquiry list' }}
+          </button>
+          <button type="button" (click)="showEnquiry = true">Email enquiry</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+@if (product && showEnquiry) {
+  <app-enquiry-modal [product]="product" (closed)="showEnquiry = false" />
+}

@@ -1,0 +1,112 @@
+<section class="page-head">
+  <div>
+    <p class="crumb">Home / Products</p>
+    <h1>Products</h1>
+    <p>Search by brand, type or model, then narrow results with discount and rating filters.</p>
+  </div>
+</section>
+
+<section class="search-bar">
+  <label>Search products
+    <input [(ngModel)]="q" name="q" placeholder="Model number, brand or type" (keyup.enter)="applySearch()" />
+  </label>
+  <label>Search with brand
+    <select [(ngModel)]="brand" (ngModelChange)="load()">
+      <option value="">All brands</option>
+      @for (item of searchOptions.brands; track item) {
+        <option [value]="item">{{ item }}</option>
+      }
+    </select>
+  </label>
+  <label>Search by ball and bearing type
+    <select [(ngModel)]="type" (ngModelChange)="load()">
+      <option value="">All types</option>
+      @for (item of searchOptions.types; track item) {
+        <option [value]="item">{{ item }}</option>
+      }
+    </select>
+  </label>
+  <button type="button" class="clear" (click)="applySearch()">Search</button>
+  <button type="button" class="clear" (click)="clearFilters()">Clear all</button>
+</section>
+
+<div class="layout">
+  <aside>
+    <h2>Filter</h2>
+    <div class="filter-group">
+      <h3>Discount percent</h3>
+      @for (option of filters.discount; track option.value) {
+        <label>
+          <input type="radio" name="minDiscount" [value]="option.value" [(ngModel)]="minDiscount" (ngModelChange)="load()" />
+          {{ option.label }}
+        </label>
+      }
+    </div>
+    <div class="filter-group">
+      <h3>Ratings</h3>
+      @for (option of filters.rating; track option.value) {
+        <label>
+          <input type="radio" name="minRating" [value]="option.value" [(ngModel)]="minRating" (ngModelChange)="load()" />
+          {{ option.label }}
+        </label>
+      }
+    </div>
+    <div class="filter-group">
+      <h3>C</h3>
+      @for (option of filters.C; track option) {
+        <label>
+          <input type="radio" name="filterC" [value]="option" [(ngModel)]="filterC" (ngModelChange)="load()" />
+          {{ option }}
+        </label>
+      }
+    </div>
+    <div class="filter-group">
+      <h3>D</h3>
+      @for (option of filters.D; track option) {
+        <label>
+          <input type="radio" name="filterD" [value]="option" [(ngModel)]="filterD" (ngModelChange)="load()" />
+          {{ option }}
+        </label>
+      }
+    </div>
+  </aside>
+
+  <section class="results">
+    <p class="count">{{ products.length }} products found</p>
+    <p class="filter-desc"><strong>Filter:</strong> {{ filterSummary() }}</p>
+    <div class="grid">
+      @for (product of products; track product.id) {
+        <article class="card">
+          <a [routerLink]="['/products', product.id]" class="photo">
+            <img [src]="product.imageUrl" [alt]="product.name" />
+          </a>
+          <div class="body">
+            <a [routerLink]="['/products', product.id]"><h3>{{ product.name }}</h3></a>
+            <app-price-display [product]="product" />
+            <p class="blurb">{{ product.description }}</p>
+            <div class="spec-boxes">
+              <div class="spec-box"><span>Model number</span><strong>{{ product.modelNumber }}</strong></div>
+              <div class="spec-box"><span>Brand</span><strong>{{ product.brand }}</strong></div>
+              <div class="spec-box"><span>Type</span><strong>{{ product.type }}</strong></div>
+              <div class="spec-box"><span>MOQ</span><strong>{{ product.moq }} piece(s)</strong></div>
+              <div class="spec-box"><span>Material</span><strong>{{ product.material }}</strong></div>
+            </div>
+            <div class="actions">
+              <a class="whatsapp" [href]="whatsappUrl(product)" target="_blank" rel="noopener"><img src="../../../../asset/whatsapp-icon.png" /></a>
+              <button type="button" class="ghost" (click)="toggleCart(product)">
+                {{ inCart(product) ? 'Remove from list' : 'Add to enquiry list' }}
+              </button>
+              <button type="button" (click)="enquiryProduct = product">Email enquiry</button>
+            </div>
+          </div>
+        </article>
+      } @empty {
+        <p class="empty">No products match the selected brand, type, or filters.</p>
+      }
+    </div>
+  </section>
+</div>
+
+@if (enquiryProduct) {
+  <app-enquiry-modal [product]="enquiryProduct" (closed)="enquiryProduct = null" />
+}

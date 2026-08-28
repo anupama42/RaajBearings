@@ -1,0 +1,44 @@
+<div class="backdrop" (click)="closed.emit()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    @if (!success) {
+      <h3>Send enquiry</h3>
+      <p class="product-name">{{ product.name }}</p>
+      <form (ngSubmit)="submit()" novalidate>
+        <label>Name
+          <input [(ngModel)]="name" name="name" required minlength="2" />
+          @if (fieldErrors['name']) { <small>{{ fieldErrors['name'] }}</small> }
+        </label>
+        <label>Email
+          <input [(ngModel)]="email" name="email" type="email" required />
+          @if (fieldErrors['email']) { <small>{{ fieldErrors['email'] }}</small> }
+        </label>
+        <label>Mobile number
+          <input [(ngModel)]="phone" name="phone" inputmode="numeric" maxlength="10" required placeholder="10-digit mobile" />
+          @if (fieldErrors['phone']) { <small>{{ fieldErrors['phone'] }}</small> }
+        </label>
+        <label>City
+          <input [(ngModel)]="city" name="city" required />
+          @if (fieldErrors['city']) { <small>{{ fieldErrors['city'] }}</small> }
+        </label>
+        <label>Company
+          <input [(ngModel)]="company" name="company" />
+        </label>
+        <label>Message
+          <textarea [(ngModel)]="message" name="message" rows="4" required minlength="10"></textarea>
+          @if (fieldErrors['message']) { <small>{{ fieldErrors['message'] }}</small> }
+        </label>
+        @if (error) {
+          <p class="error">{{ error }}</p>
+        }
+        <div class="actions">
+          <button type="button" class="ghost" (click)="closed.emit()">Cancel</button>
+          <button type="submit" [disabled]="submitting">{{ submitting ? 'Sending...' : 'Send enquiry' }}</button>
+        </div>
+      </form>
+    } @else {
+      <h3>Enquiry sent</h3>
+      <p>Thank you. We will contact you about model {{ product.modelNumber || product.sku }}.</p>
+      <button type="button" (click)="closed.emit()">Close</button>
+    }
+  </div>
+</div>

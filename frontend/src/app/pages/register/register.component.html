@@ -1,0 +1,32 @@
+<section class="page">
+  <h1>Create account</h1>
+  <p>Choose a login ID and password. You will use them to open your profile later.</p>
+  <form (ngSubmit)="submit()" novalidate>
+    <label>Login ID
+      <input name="loginId" [(ngModel)]="loginId" autocomplete="username" required />
+    </label>
+    <label>Password
+      <input name="password" type="password" [(ngModel)]="password" autocomplete="new-password" required />
+    </label>
+    <label>Full name
+      <input name="name" [(ngModel)]="name" required />
+    </label>
+    <label>Email
+      <input name="email" type="email" [(ngModel)]="email" required />
+    </label>
+    <label>Mobile
+      <input name="phone" [(ngModel)]="phone" />
+    </label>
+    <label>City
+      <input name="city" [(ngModel)]="city" />
+    </label>
+    <label>Company
+      <input name="company" [(ngModel)]="company" />
+    </label>
+    @if (error) {
+      <p class="error">{{ error }}</p>
+    }
+    <button type="submit" [disabled]="submitting">{{ submitting ? 'Creating...' : 'Create account' }}</button>
+  </form>
+  <p>Already registered? <a routerLink="/login">Login</a></p>
+</section>

@@ -1,0 +1,137 @@
+.banner {
+  min-height: 420px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: #fff;
+  background:
+    linear-gradient(120deg, rgba(12, 24, 40, 0.88), rgba(139, 30, 30, 0.72)),
+    repeating-linear-gradient(
+      135deg,
+      #1b2f45 0 18px,
+      #163049 18px 36px
+    );
+}
+
+.banner-inner {
+  padding: 48px 24px;
+  max-width: 900px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-size: 13px;
+  color: #f5d0d0;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(48px, 8vw, 84px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tagline {
+  margin: 12px 0 28px;
+  font-size: clamp(18px, 2.4vw, 26px);
+  color: #f4f6f7;
+}
+
+.cta {
+  display: inline-block;
+  background: #8b1e1e;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 14px 28px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.intro,
+.featured {
+  padding: 48px 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.intro h2,
+.featured h2 {
+  margin-top: 0;
+}
+
+.highlights {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.highlights article {
+  background: #fff;
+  border: 1px solid #e5ebf0;
+  border-radius: 10px;
+  padding: 18px;
+}
+
+.featured-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.featured-head a,
+.feature-card {
+  color: #8b1e1e;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.feature-card {
+  background: #fff;
+  border: 1px solid #e5ebf0;
+  border-radius: 10px;
+  padding: 16px;
+  color: #1c2833;
+}
+
+.feature-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: contain;
+  background: #f4f7fa;
+}
+
+.feature-card h3 {
+  font-size: 16px;
+  margin: 10px 0 4px;
+}
+
+.feature-card p {
+  margin: 0;
+  color: #5d6d7e;
+  font-weight: 400;
+}
+
+@media (max-width: 900px) {
+  .highlights,
+  .featured-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .highlights,
+  .featured-grid {
+    grid-template-columns: 1fr;
+  }
+}

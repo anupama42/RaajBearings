@@ -1,0 +1,17 @@
+<section class="page">
+  <h1>Login</h1>
+  <p>Use your login ID and password to open your Raaj Bearings profile.</p>
+  <form (ngSubmit)="submit()" novalidate>
+    <label>Login ID
+      <input name="loginId" [(ngModel)]="loginId" autocomplete="username" required />
+    </label>
+    <label>Password
+      <input name="password" type="password" [(ngModel)]="password" autocomplete="current-password" required />
+    </label>
+    @if (error) {
+      <p class="error">{{ error }}</p>
+    }
+    <button type="submit" [disabled]="submitting">{{ submitting ? 'Signing in...' : 'Login' }}</button>
+  </form>
+  <p>New here? <a routerLink="/register">Create an account</a></p>
+</section>

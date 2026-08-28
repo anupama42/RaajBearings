@@ -1,0 +1,72 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 32, 0.55);
+  display: grid;
+  place-items: center;
+  z-index: 20;
+  padding: 16px;
+}
+
+.modal {
+  width: min(480px, 100%);
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.product-name {
+  color: #5d6d7e;
+  margin: 0 0 16px;
+}
+
+form {
+  display: grid;
+  gap: 10px;
+}
+
+label {
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+input, textarea {
+  padding: 8px 10px;
+  border: 1px solid #cfd6dd;
+  border-radius: 6px;
+  font: inherit;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+button {
+  background: #e74c3c;
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  padding: 9px 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button.ghost {
+  background: #eef2f5;
+  color: #1c2833;
+}
+
+small {
+  color: #c0392b;
+  font-weight: 400;
+}
+
+.error {
+  color: #c0392b;
+  margin: 0;
+}

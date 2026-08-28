@@ -1,0 +1,38 @@
+<section class="page">
+  <h1>Your profile</h1>
+  @if (profile) {
+    <p>Logged in as <strong>{{ profile.loginId }}</strong></p>
+    <form (ngSubmit)="save()" novalidate>
+      <label>Full name
+        <input name="name" [(ngModel)]="name" required />
+      </label>
+      <label>Email
+        <input name="email" type="email" [(ngModel)]="email" required />
+      </label>
+      <label>Mobile
+        <input name="phone" [(ngModel)]="phone" />
+      </label>
+      <label>City
+        <input name="city" [(ngModel)]="city" />
+      </label>
+      <label>Company
+        <input name="company" [(ngModel)]="company" />
+      </label>
+      <h2>Change password</h2>
+      <p class="hint">Leave blank unless you want a new password.</p>
+      <label>Current password
+        <input name="currentPassword" type="password" [(ngModel)]="currentPassword" />
+      </label>
+      <label>New password
+        <input name="newPassword" type="password" [(ngModel)]="newPassword" />
+      </label>
+      @if (error) {
+        <p class="error">{{ error }}</p>
+      }
+      @if (message) {
+        <p class="ok">{{ message }}</p>
+      }
+      <button type="submit" [disabled]="saving">{{ saving ? 'Saving...' : 'Save profile' }}</button>
+    </form>
+  }
+</section>

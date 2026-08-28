@@ -1,0 +1,33 @@
+.sale-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.sale {
+  color: #b12704;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.off {
+  color: #cc0c39;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.mrp {
+  margin: 4px 0 0;
+  color: #565959;
+  font-size: 13px;
+}
+
+.mrp s {
+  color: #565959;
+}
+
+.rating {
+  margin: 6px 0 0;
+  color: #c45500;
+  font-size: 14px;
+}

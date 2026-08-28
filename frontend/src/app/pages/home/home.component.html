@@ -1,0 +1,47 @@
+<section class="banner">
+  <div class="banner-inner">
+    <p class="eyebrow">Industrial bearing specialists</p>
+    <h1>Raaj Bearings</h1>
+    <p class="tagline">Precision ball &amp; roller bearings for every machine</p>
+    <a routerLink="/products" class="cta">View products</a>
+  </div>
+</section>
+
+<section class="intro">
+  <h2>Trusted supply for workshops and OEM lines</h2>
+  <p>
+    Raaj Bearings stocks deep groove, taper roller, spherical, pillow block and other industrial
+    bearings. Search by brand or type, then send an enquiry for the sizes you need.
+  </p>
+  <div class="highlights">
+    <article>
+      <h3>Wide range</h3>
+      <p>Ball, roller and housed bearings for motors, gearboxes, conveyors and vehicles.</p>
+    </article>
+    <article>
+      <h3>Known brands</h3>
+      <p>SKF, NSK, FAG, NTN, Timken, INA, Koyo and equivalent quality options.</p>
+    </article>
+    <article>
+      <h3>Quick enquiry</h3>
+      <p>Share quantity and application and we will come back with availability.</p>
+    </article>
+  </div>
+</section>
+
+<section class="featured">
+  <div class="featured-head">
+    <h2>Featured products</h2>
+    <a routerLink="/products">See full catalog →</a>
+  </div>
+  <div class="featured-grid">
+    @for (product of featured; track product.id) {
+      <a class="feature-card" [routerLink]="['/products', product.id]">
+        <img [src]="product.imageUrl" [alt]="product.name" />
+        <h3>{{ product.name }}</h3>
+        <app-price-display [product]="product" />
+        <p>{{ product.brand }} · {{ product.type }}</p>
+      </a>
+    }
+  </div>
+</section>

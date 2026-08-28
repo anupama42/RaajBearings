@@ -1,0 +1,56 @@
+.page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 48px 32px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 28px;
+}
+
+aside,
+form,
+.thanks {
+  background: #fff;
+  border: 1px solid #e5ebf0;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+label {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+input,
+textarea {
+  padding: 8px 10px;
+  border: 1px solid #cfd8e3;
+  border-radius: 6px;
+  font: inherit;
+}
+
+button {
+  background: #8b1e1e;
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.error {
+  color: #c0392b;
+}
+
+@media (max-width: 800px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
