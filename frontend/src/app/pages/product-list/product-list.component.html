@@ -2,7 +2,7 @@
   <div>
     <p class="crumb">Home / Products</p>
     <h1>Products</h1>
-    <p>Search by brand, type or model, then narrow results with discount and rating filters.</p>
+    <p>Search by brand, type or model, then narrow results with the discount filter.</p>
   </div>
 </section>
 
@@ -26,7 +26,6 @@
       }
     </select>
   </label>
-  <button type="button" class="clear" (click)="applySearch()">Search</button>
   <button type="button" class="clear" (click)="clearFilters()">Clear all</button>
 </section>
 
@@ -39,33 +38,6 @@
         <label>
           <input type="radio" name="minDiscount" [value]="option.value" [(ngModel)]="minDiscount" (ngModelChange)="load()" />
           {{ option.label }}
-        </label>
-      }
-    </div>
-    <div class="filter-group">
-      <h3>Ratings</h3>
-      @for (option of filters.rating; track option.value) {
-        <label>
-          <input type="radio" name="minRating" [value]="option.value" [(ngModel)]="minRating" (ngModelChange)="load()" />
-          {{ option.label }}
-        </label>
-      }
-    </div>
-    <div class="filter-group">
-      <h3>C</h3>
-      @for (option of filters.C; track option) {
-        <label>
-          <input type="radio" name="filterC" [value]="option" [(ngModel)]="filterC" (ngModelChange)="load()" />
-          {{ option }}
-        </label>
-      }
-    </div>
-    <div class="filter-group">
-      <h3>D</h3>
-      @for (option of filters.D; track option) {
-        <label>
-          <input type="radio" name="filterD" [value]="option" [(ngModel)]="filterD" (ngModelChange)="load()" />
-          {{ option }}
         </label>
       }
     </div>
@@ -92,16 +64,14 @@
               <div class="spec-box"><span>Material</span><strong>{{ product.material }}</strong></div>
             </div>
             <div class="actions">
-              <a class="whatsapp" [href]="whatsappUrl(product)" target="_blank" rel="noopener"><img src="../../../../asset/whatsapp-icon.png" /></a>
-              <button type="button" class="ghost" (click)="toggleCart(product)">
-                {{ inCart(product) ? 'Remove from list' : 'Add to enquiry list' }}
-              </button>
+              <a class="whatsapp" [href]="whatsappUrl(product)" target="_blank" rel="noopener" aria-label="Enquire on WhatsApp" title="Enquire on WhatsApp"><img src="../../../../asset/whatsapp-icon.png" alt="WhatsApp" /></a>
+              <a class="email" [href]="emailUrl(product)">Email enquiry</a>
               <button type="button" (click)="enquiryProduct = product">Email enquiry</button>
             </div>
           </div>
         </article>
       } @empty {
-        <p class="empty">No products match the selected brand, type, or filters.</p>
+        <p class="empty">No products match the selected search or filters.</p>
       }
     </div>
   </section>

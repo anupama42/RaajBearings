@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const db = require('./db');
@@ -36,14 +37,7 @@ app.get('/api/filters', (_req, res) => {
       { value: '20', label: '20% and above' },
       { value: '30', label: '30% and above' },
       { value: '50', label: '50% and above' }
-    ],
-    rating: [
-      { value: '4', label: '4 stars & up' },
-      { value: '3', label: '3 stars & up' },
-      { value: '2', label: '2 stars & up' }
-    ],
-    C: [],
-    D: []
+    ]
   };
   for (const row of rows) {
     grouped[row.category].push(row.value);
@@ -253,9 +247,20 @@ app.post('/api/db/query', (req, res) => {
   }
 });
 
-app.get('/', (_req, res) => {
-  res.redirect('/admin');
-});
+const frontendDist = path.join(__dirname, '..', '..', 'frontend', 'dist', 'frontend', 'browser');
+if (fs.existsSync(frontendDist)) {
+  app.use(express.static(frontendDist));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path.startsWith('/images') || req.path.startsWith('/admin')) {
+      return next();
+    }
+    res.sendFile(path.join(frontendDist, 'index.html'));
+  });
+} else {
+  app.get('/', (_req, res) => {
+    res.redirect('/admin');
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`Bearing catalog API running on http://localhost:${PORT}`);

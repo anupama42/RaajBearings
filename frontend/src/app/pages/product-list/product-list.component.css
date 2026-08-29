@@ -172,6 +172,7 @@ aside h2 {
 }
 
 .body button,
+.email,
 .whatsapp {
   background: #e74c3c;
   color: #fff;
@@ -186,6 +187,16 @@ aside h2 {
 
 .whatsapp {
   background: #25d366;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+
+.whatsapp img {
+  width: 24px;
+  height: 24px;
+  display: block;
 }
 
 .actions {

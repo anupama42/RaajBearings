@@ -4,9 +4,9 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FilterOptions, Product, SearchOptions } from '../../models/catalog.models';
 import { CatalogService } from '../../services/catalog.service';
 import { WishlistService } from '../../services/wishlist.service';
-import { EnquiryModalComponent } from '../../components/enquiry-modal/enquiry-modal.component';
 import { PriceDisplayComponent } from '../../components/price-display/price-display.component';
-import { whatsappEnquireUrl } from '../../utils/catalog.util';
+import { emailEnquiryUrl, whatsappEnquireUrl } from '../../utils/catalog.util';
+import { EnquiryModalComponent } from '../../components/enquiry-modal/enquiry-modal.component';
 
 @Component({
   selector: 'app-product-list',
@@ -21,9 +21,6 @@ export class ProductListComponent implements OnInit {
   brand = '';
   type = '';
   minDiscount = '';
-  minRating = '';
-  filterC = '';
-  filterD = '';
   q = '';
   enquiryProduct: Product | null = null;
 
@@ -48,9 +45,6 @@ export class ProductListComponent implements OnInit {
       brand: this.brand,
       type: this.type,
       minDiscount: this.minDiscount,
-      minRating: this.minRating,
-      filterC: this.filterC,
-      filterD: this.filterD,
       q: this.q
     }).subscribe((products) => (this.products = products));
   }
@@ -66,11 +60,9 @@ export class ProductListComponent implements OnInit {
     this.brand = '';
     this.type = '';
     this.minDiscount = '';
-    this.minRating = '';
-    this.filterC = '';
-    this.filterD = '';
     this.q = '';
     this.router.navigate(['/products']);
+    this.load();
   }
 
   filterSummary(): string {
@@ -80,15 +72,15 @@ export class ProductListComponent implements OnInit {
     if (this.type) parts.push(`Type: ${this.type}`);
     const discount = this.filters.discount.find((item) => item.value === this.minDiscount);
     if (discount) parts.push(`Discount: ${discount.label}`);
-    const rating = this.filters.rating.find((item) => item.value === this.minRating);
-    if (rating) parts.push(`Ratings: ${rating.label}`);
-    if (this.filterC) parts.push(`C: ${this.filterC}`);
-    if (this.filterD) parts.push(`D: ${this.filterD}`);
     return parts.length ? parts.join(' · ') : 'None';
   }
 
   whatsappUrl(product: Product): string {
     return whatsappEnquireUrl(product);
+  }
+
+  emailUrl(product: Product): string {
+    return emailEnquiryUrl(product);
   }
 
   inCart(product: Product): boolean {

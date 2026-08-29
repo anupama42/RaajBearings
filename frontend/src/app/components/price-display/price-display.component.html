@@ -1,12 +1,8 @@
 <div class="price-block">
   <div class="sale-row">
-    <span class="sale">{{ formatInr(product.salePrice) }}</span>
+    <span class="sale">{{ formatInr(product.priceMin) }} – {{ formatInr(product.priceMax) }}</span>
     @if (product.discountPercent > 0) {
-      <span class="off">{{ product.discountPercent }}% off</span>
+      <span class="off">Up to {{ product.discountPercent }}% off</span>
     }
   </div>
-  @if (product.discountPercent > 0) {
-    <p class="mrp">M.R.P.: <s>{{ formatInr(product.originalPrice) }}</s></p>
-  }
-  <p class="rating">{{ starLabel(product.rating) }}</p>
 </div>

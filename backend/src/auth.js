@@ -67,7 +67,7 @@ function seedDemoUser() {
     hashPassword('Raaj@1234'),
     'Raaj Customer',
     'customer@raajbearings.local',
-    '7606902815',
+    '9632601143',
     'Pune',
     'Raaj Bearings'
   );

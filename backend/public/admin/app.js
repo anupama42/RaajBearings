@@ -168,7 +168,7 @@ async function loadTables() {
   }
 }
 
-async function loadFilters() {
+async function load() {
   const grouped = await api('/api/filters');
   const rows = await api('/api/db/tables/filter_options');
   filterList.innerHTML = `

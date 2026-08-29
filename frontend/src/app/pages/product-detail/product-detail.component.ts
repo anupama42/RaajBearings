@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Product } from '../../models/catalog.models';
 import { CatalogService } from '../../services/catalog.service';
-import { WishlistService } from '../../services/wishlist.service';
 import { EnquiryModalComponent } from '../../components/enquiry-modal/enquiry-modal.component';
 import { PriceDisplayComponent } from '../../components/price-display/price-display.component';
-import { whatsappEnquireUrl } from '../../utils/catalog.util';
+import { emailEnquiryUrl, whatsappEnquireUrl } from '../../utils/catalog.util';
 
 @Component({
   selector: 'app-product-detail',
@@ -19,8 +18,7 @@ export class ProductDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private catalog: CatalogService,
-    private wishlist: WishlistService
+    private catalog: CatalogService
   ) {}
 
   ngOnInit(): void {
@@ -32,11 +30,7 @@ export class ProductDetailComponent implements OnInit {
     return whatsappEnquireUrl(product);
   }
 
-  inCart(product: Product): boolean {
-    return this.wishlist.has(product.id);
-  }
-
-  toggleCart(product: Product): void {
-    this.wishlist.toggle(product.id);
+  emailUrl(product: Product): string {
+    return emailEnquiryUrl(product);
   }
 }

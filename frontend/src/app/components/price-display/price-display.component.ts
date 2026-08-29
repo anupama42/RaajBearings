@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Product } from '../../models/catalog.models';
-import { formatInr, starLabel } from '../../utils/catalog.util';
+import { formatInr } from '../../utils/catalog.util';
 
 @Component({
   selector: 'app-price-display',
@@ -11,5 +11,4 @@ export class PriceDisplayComponent {
   @Input({ required: true }) product!: Product;
 
   formatInr = formatInr;
-  starLabel = starLabel;
 }
