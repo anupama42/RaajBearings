@@ -185,7 +185,7 @@ aside h2 {
   display: inline-block;
 }
 
-.whatsapp {
+.whatsapp, .email {
   background: #25d366;
   display: inline-flex;
   align-items: center;
@@ -193,7 +193,18 @@ aside h2 {
   padding: 8px;
 }
 
+  .email {
+     background: #6e6cf4 !important;
+  }
+
 .whatsapp img {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+
+.email img {
   width: 24px;
   height: 24px;
   display: block;

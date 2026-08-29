@@ -64,9 +64,9 @@
               <div class="spec-box"><span>Material</span><strong>{{ product.material }}</strong></div>
             </div>
             <div class="actions">
-              <a class="whatsapp" [href]="whatsappUrl(product)" target="_blank" rel="noopener" aria-label="Enquire on WhatsApp" title="Enquire on WhatsApp"><img src="../../../../asset/whatsapp-icon.png" alt="WhatsApp" /></a>
-              <a class="email" [href]="emailUrl(product)">Email enquiry</a>
-              <button type="button" (click)="enquiryProduct = product">Email enquiry</button>
+              <a class="whatsapp" [href]="whatsappUrl(product)" target="_blank" rel="noopener" aria-label="Enquire on WhatsApp" title="Enquire on WhatsApp"><img src="/asset/whatsapp-icon.png" alt="WhatsApp" /></a>
+              <a class="email" [href]="emailUrl(product)"><img src="/asset/email-icon.png" alt="Email" /></a>
+              <button type="button" (click)="enquiryProduct = product">Send Enquiry</button>
             </div>
           </div>
         </article>
