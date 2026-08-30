@@ -1,3 +1,79 @@
+// ---- Admin authentication ----
+const ADMIN_TOKEN_KEY = 'raaj-admin-token';
+
+const loginOverlay = document.getElementById('admin-login-overlay');
+const adminLoginForm = document.getElementById('admin-login-form');
+const adminLoginError = document.getElementById('admin-login-error');
+const logoutButton = document.getElementById('admin-logout');
+
+function getAdminToken() {
+  return localStorage.getItem(ADMIN_TOKEN_KEY);
+}
+
+function setAdminToken(token) {
+  localStorage.setItem(ADMIN_TOKEN_KEY, token);
+}
+
+function clearAdminToken() {
+  localStorage.removeItem(ADMIN_TOKEN_KEY);
+}
+
+function isAdminLoggedIn() {
+  return Boolean(getAdminToken());
+}
+
+function showLogin() {
+  loginOverlay.classList.add('visible');
+  document.body.classList.add('admin-locked');
+  logoutButton.classList.add('hidden');
+}
+
+function hideLogin() {
+  loginOverlay.classList.remove('visible');
+  document.body.classList.remove('admin-locked');
+  logoutButton.classList.remove('hidden');
+}
+
+adminLoginForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  adminLoginError.textContent = '';
+  const formData = new FormData(adminLoginForm);
+  const username = String(formData.get('username')).trim();
+  const password = String(formData.get('password'));
+  if (!username || !password) {
+    adminLoginError.textContent = 'Enter an admin username and password.';
+    return;
+  }
+  try {
+    const response = await fetch('/api/admin/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || 'Login failed');
+    }
+    setAdminToken(data.token);
+    adminLoginForm.reset();
+    hideLogin();
+    await loadAll();
+  } catch (error) {
+    adminLoginError.textContent = error.message;
+  }
+});
+
+logoutButton.addEventListener('click', () => {
+  clearAdminToken();
+  productList.innerHTML = '';
+  tableView.innerHTML = '';
+  filterList.innerHTML = '';
+  sqlOutput.textContent = '';
+  document.getElementById('product-status').textContent = '';
+  showLogin();
+});
+
+// ---- Existing UI wiring ----
 const productForm = document.getElementById('product-form');
 const productList = document.getElementById('product-list');
 const productStatus = document.getElementById('product-status');
@@ -17,11 +93,18 @@ document.querySelectorAll('nav button').forEach((button) => {
   });
 });
 
-async function api(url, options) {
-  const response = await fetch(url, {
-    headers: { 'Content-Type': 'application/json' },
-    ...options
-  });
+async function api(url, options = {}) {
+  const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
+  const token = getAdminToken();
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  const response = await fetch(url, { ...options, headers });
+  if (response.status === 401) {
+    clearAdminToken();
+    showLogin();
+    throw new Error('Session expired. Please log in again.');
+  }
   const data = await response.json();
   if (!response.ok) {
     throw new Error(data.error || 'Request failed');
@@ -168,7 +251,7 @@ async function loadTables() {
   }
 }
 
-async function load() {
+async function loadFilters() {
   const grouped = await api('/api/filters');
   const rows = await api('/api/db/tables/filter_options');
   filterList.innerHTML = `
@@ -203,6 +286,14 @@ filterForm.addEventListener('submit', async (event) => {
   await loadFilters();
 });
 
-loadProducts();
-loadTables();
-loadFilters();
+async function loadAll() {
+  await Promise.all([loadProducts(), loadTables(), loadFilters()]);
+}
+
+// Boot the admin UI
+if (isAdminLoggedIn()) {
+  hideLogin();
+  loadAll().catch(() => {});
+} else {
+  showLogin();
+}

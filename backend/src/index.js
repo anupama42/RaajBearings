@@ -6,6 +6,7 @@ const db = require('./db');
 const { registerAuthRoutes } = require('./auth');
 const { registerEnquiryCartRoutes } = require('./enquiry-cart');
 const { executeSql, listTables, tableInfo } = require('./db-admin');
+const { registerAdminAuthRoutes, requireAdmin } = require('./admin-auth');
 const {
   mapProduct,
   productFromBody,
@@ -23,12 +24,13 @@ app.use(express.json({ limit: '1mb' }));
 app.use('/images', express.static(path.join(__dirname, '..', 'public', 'images')));
 app.use('/admin', express.static(path.join(__dirname, '..', 'public', 'admin')));
 registerAuthRoutes(app);
+registerAdminAuthRoutes(app);
 registerEnquiryCartRoutes(app);
 
 app.get('/api/filters', (_req, res) => {
   const rows = db.prepare(`
     SELECT category, value FROM filter_options
-    WHERE category IN ('C', 'D')
+    WHERE category IN ('A', 'B', 'C', 'D')
     ORDER BY category, value
   `).all();
   const grouped = {
@@ -37,7 +39,11 @@ app.get('/api/filters', (_req, res) => {
       { value: '20', label: '20% and above' },
       { value: '30', label: '30% and above' },
       { value: '50', label: '50% and above' }
-    ]
+    ],
+    A: [],
+    B: [],
+    C: [],
+    D: []
   };
   for (const row of rows) {
     grouped[row.category].push(row.value);
@@ -45,7 +51,7 @@ app.get('/api/filters', (_req, res) => {
   res.json(grouped);
 });
 
-app.post('/api/filters', (req, res) => {
+app.post('/api/filters', requireAdmin, (req, res) => {
   const category = String(req.body?.category || '').toUpperCase();
   const value = String(req.body?.value || '').trim();
   if (!['A', 'B', 'C', 'D'].includes(category) || !value) {
@@ -59,7 +65,7 @@ app.post('/api/filters', (req, res) => {
   }
 });
 
-app.delete('/api/filters/:id', (req, res) => {
+app.delete('/api/filters/:id', requireAdmin, (req, res) => {
   const result = db.prepare('DELETE FROM filter_options WHERE id = ?').run(req.params.id);
   if (!result.changes) {
     return res.status(404).json({ error: 'Filter option not found' });
@@ -120,7 +126,7 @@ app.get('/api/products/:id', (req, res) => {
   res.json(mapProduct(row));
 });
 
-app.post('/api/products', (req, res) => {
+app.post('/api/products', requireAdmin, (req, res) => {
   const row = productFromBody(req.body);
   const error = validateProduct(row);
   if (error) {
@@ -131,7 +137,7 @@ app.post('/api/products', (req, res) => {
   res.status(201).json(mapProduct(created));
 });
 
-app.put('/api/products/:id', (req, res) => {
+app.put('/api/products/:id', requireAdmin, (req, res) => {
   const existing = db.prepare('SELECT id FROM products WHERE id = ?').get(req.params.id);
   if (!existing) {
     return res.status(404).json({ error: 'Product not found' });
@@ -146,7 +152,7 @@ app.put('/api/products/:id', (req, res) => {
   res.json(mapProduct(updated));
 });
 
-app.delete('/api/products/:id', (req, res) => {
+app.delete('/api/products/:id', requireAdmin, (req, res) => {
   const deleteProduct = db.transaction((id) => {
     db.prepare('DELETE FROM enquiry_cart WHERE product_id = ?').run(id);
     db.prepare('DELETE FROM enquiries WHERE product_id = ?').run(id);
@@ -209,11 +215,11 @@ app.post('/api/contacts', (req, res) => {
   res.status(201).json({ id: Number(result.lastInsertRowid), status: 'received' });
 });
 
-app.get('/api/contacts', (_req, res) => {
+app.get('/api/contacts', requireAdmin, (req, res) => {
   res.json(db.prepare('SELECT * FROM contacts ORDER BY id DESC').all());
 });
 
-app.get('/api/enquiries', (_req, res) => {
+app.get('/api/enquiries', requireAdmin, (req, res) => {
   const rows = db.prepare(`
     SELECT e.*, p.name AS product_name, p.sku
     FROM enquiries e
@@ -223,11 +229,11 @@ app.get('/api/enquiries', (_req, res) => {
   res.json(rows);
 });
 
-app.get('/api/db/tables', (_req, res) => {
+app.get('/api/db/tables', requireAdmin, (req, res) => {
   res.json({ tables: listTables() });
 });
 
-app.get('/api/db/tables/:name', (req, res) => {
+app.get('/api/db/tables/:name', requireAdmin, (req, res) => {
   try {
     res.json(tableInfo(req.params.name));
   } catch (error) {
@@ -235,7 +241,7 @@ app.get('/api/db/tables/:name', (req, res) => {
   }
 });
 
-app.post('/api/db/query', (req, res) => {
+app.post('/api/db/query', requireAdmin, (req, res) => {
   const sql = req.body?.sql;
   if (!sql) {
     return res.status(400).json({ error: 'sql is required' });

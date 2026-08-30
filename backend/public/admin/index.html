@@ -6,13 +6,16 @@
   <title>Database admin · Ball & Bearing Hub</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
-<body>
+<body class="admin-locked">
   <header>
     <div>
       <h1>Database admin</h1>
       <p>SQLite file: <code>backend/data/bearings.db</code></p>
     </div>
-    <a href="http://localhost:4200" target="_blank">Open catalog</a>
+    <div class="header-actions">
+      <a href="http://localhost:4200" target="_blank">Open catalog</a>
+      <button id="admin-logout" class="ghost hidden">Log out</button>
+    </div>
   </header>
 
   <nav>
@@ -84,6 +87,17 @@
     </form>
     <div id="filter-list"></div>
   </section>
+
+  <div id="admin-login-overlay" class="login-overlay visible">
+    <form id="admin-login-form" class="login-card">
+      <h2>Admin login</h2>
+      <p>Sign in to manage the database.</p>
+      <label>Username <input name="username" autocomplete="username" required /></label>
+      <label>Password <input name="password" type="password" autocomplete="current-password" required /></label>
+      <button type="submit">Log in</button>
+      <p id="admin-login-error" class="status error"></p>
+    </form>
+  </div>
 
   <script src="./app.js"></script>
 </body>

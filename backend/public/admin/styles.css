@@ -56,3 +56,43 @@ pre {
   overflow: auto;
 }
 @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+/* Admin login */
+.hidden { display: none !important; }
+.header-actions { display: flex; align-items: center; gap: 12px; }
+
+.login-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 39, 68, 0.85);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.login-overlay.visible { display: flex; }
+
+.login-card {
+  width: 100%;
+  max-width: 360px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+.login-card h2 { margin-top: 0; }
+.login-card p { color: #5d6d7e; }
+.login-card label { margin-bottom: 12px; }
+.login-card button { width: 100%; }
+
+.status.error { color: #c0392b; }
+
+body.admin-locked header,
+body.admin-locked nav,
+body.admin-locked .tab {
+  pointer-events: none;
+  filter: blur(3px);
+  user-select: none;
+}
