@@ -268,6 +268,11 @@ if (fs.existsSync(frontendDist)) {
   });
 }
 
+// Keep-alive health check route
+app.get('/health', (req, res) => {
+  res.status(200).send('OK - Server is awake');
+});
+
 app.listen(PORT, () => {
   console.log(`Bearing catalog API running on http://localhost:${PORT}`);
   console.log(`Database admin UI: http://localhost:${PORT}/admin`);
